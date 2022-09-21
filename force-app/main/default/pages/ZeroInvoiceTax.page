@@ -1,0 +1,24 @@
+<apex:page standardController="Invoice__c" recordsetvar="invList" extensions="ZeroInvoiceTaxController">
+    <apex:form>
+        <script>
+            function closeWindow() {
+                setTimeout(returnToListView(), 2000);
+            }
+        </script>
+        <apex:outputPanel>
+            <apex:pageMessages id="msgs" />
+        </apex:outputPanel>
+
+        <apex:pageBlock>
+            <h1>Zero-Tax Invoices!</h1>
+            <h3>
+                Click the button below to set the {Tax} field on all invoices to 0.00
+            </h3>
+            <apex:pageBlockButtons location="bottom">
+                <apex:commandButton action="{!zeroTaxHandler}" value="Update Invoices" rerender="msgs" oncomplete="closeWindow()" />
+            </apex:pageBlockButtons>
+        </apex:pageBlock>
+        <apex:actionFunction name="returnToListView" action="{!returnToListView}" />
+    </apex:form>
+
+</apex:page>
