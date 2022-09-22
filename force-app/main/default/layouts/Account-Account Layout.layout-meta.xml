@@ -151,6 +151,17 @@
         <layoutColumns/>
         <style>CustomLinks</style>
     </layoutSections>
+<<<<<<< HEAD
+=======
+    <platformActionList>
+        <actionListContext>Record</actionListContext>
+        <platformActionListItems>
+            <actionName>Account.Deactivate_Account_Invoices</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>0</sortOrder>
+        </platformActionListItems>
+    </platformActionList>
+>>>>>>> 3c1cd323e6df89a442a869499b01bee069787a50
     <quickActionList>
         <quickActionListItems>
             <quickActionName>FeedItem.TextPost</quickActionName>

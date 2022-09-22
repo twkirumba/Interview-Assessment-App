@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
     "packageDirectories": [
         {
             "path": "force-app",
@@ -18,3 +19,16 @@
         "InterviewAssessment@0.1.0-2": "04t8b000000uVuBAAU"
     }
 }
+=======
+  "packageDirectories": [
+    {
+      "path": "force-app",
+      "default": true
+    }
+  ],
+  "name": "interviewAssessment",
+  "namespace": "",
+  "sfdcLoginUrl": "https://login.salesforce.com",
+  "sourceApiVersion": "55.0"
+}
+>>>>>>> 3c1cd323e6df89a442a869499b01bee069787a50

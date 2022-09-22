@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>55.0</apiVersion>
+    <assignments>
+        <description>Set this.Invoice.Active = false</description>
+        <name>Set_Active_False</name>
+        <label>Set Active = false</label>
+        <locationX>264</locationX>
+        <locationY>518</locationY>
+        <assignmentItems>
+            <assignToReference>Loop_over_Invoices.Active__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Update_related_Invoice_Lines</targetReference>
+        </connector>
+    </assignments>
+    <description>A screen flow to deactivate an Account, it&apos;s related Invoices and their related Invoice Lines</description>
+    <environments>Default</environments>
+    <interviewLabel>Deactivate Account and Related Invoice And Line {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Deactivate Account and Related Invoice And Line</label>
+    <loops>
+        <description>Loop over all Invoices and set {Active} = false</description>
+        <name>Loop_over_Invoices</name>
+        <label>Loop over Invoices</label>
+        <locationX>176</locationX>
+        <locationY>398</locationY>
+        <collectionReference>Get_Related_Invoices</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Set_Active_False</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Update_Invoices</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <recordLookups>
+        <description>Get All Invoices Related to the Account that triggered this Flow</description>
+        <name>Get_Related_Invoices</name>
+        <label>Get Related Invoices</label>
+        <locationX>176</locationX>
+        <locationY>278</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Loop_over_Invoices</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Account__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>Invoice__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <description>Update Account and Set Active = false</description>
+        <name>Update_Account_and_Set_Active_false</name>
+        <label>Update Account and Set Active = false</label>
+        <locationX>176</locationX>
+        <locationY>974</locationY>
+        <connector>
+            <targetReference>completionScreen</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Active__c</field>
+            <value>
+                <stringValue>No</stringValue>
+            </value>
+        </inputAssignments>
+        <object>Account</object>
+    </recordUpdates>
+    <recordUpdates>
+        <description>Update List of Invoices</description>
+        <name>Update_Invoices</name>
+        <label>Update Invoices</label>
+        <locationX>176</locationX>
+        <locationY>854</locationY>
+        <connector>
+            <targetReference>Update_Account_and_Set_Active_false</targetReference>
+        </connector>
+        <inputReference>Get_Related_Invoices</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <description>Update related Invoice Lines and set Active = false</description>
+        <name>Update_related_Invoice_Lines</name>
+        <label>Update related Invoice Lines</label>
+        <locationX>264</locationX>
+        <locationY>638</locationY>
+        <connector>
+            <targetReference>Loop_over_Invoices</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Invoice__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Loop_over_Invoices.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Active__c</field>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </inputAssignments>
+        <object>Invoice_Line__c</object>
+    </recordUpdates>
+    <screens>
+        <description>completion screen</description>
+        <name>completionScreen</name>
+        <label>completionScreen</label>
+        <locationX>176</locationX>
+        <locationY>1094</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>successMessage</name>
+            <fieldText>&lt;p&gt;&lt;strong style=&quot;color: rgb(6, 157, 3); font-size: 16px;&quot;&gt;Success! Your flow is complete. Please review the records in your related lists and confirm the expected outcome.  &lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <description>Shows the user information about the process that deactivates accounts with their child invoices</description>
+        <name>Deactivate_Account_and_Invoices_Screen</name>
+        <label>Deactivate Account and Invoices Screen</label>
+        <locationX>176</locationX>
+        <locationY>158</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>Get_Related_Invoices</targetReference>
+        </connector>
+        <fields>
+            <name>deactivateAccountsInvoicesText</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 16px; font-family: verdana;&quot;&gt;Clicking the Button Below will Deactivate this Account and All Related Invoices and Invoice Lines. Proceed with care&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <nextOrFinishButtonLabel>Deactivate</nextOrFinishButtonLabel>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Deactivate_Account_and_Invoices_Screen</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <description>(Account) record from which this Flow was launched</description>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>
