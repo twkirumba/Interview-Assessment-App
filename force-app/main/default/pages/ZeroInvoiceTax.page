@@ -1,15 +1,15 @@
 <apex:page standardController="Invoice__c" recordsetvar="invList" extensions="ZeroInvoiceTaxController">
-    <apex:form >
+    <apex:form>
         <script>
             function closeWindow() {
                 setTimeout(returnToListView(), 2000);
             }
         </script>
-        <apex:outputPanel >
+        <apex:outputPanel>
             <apex:pageMessages id="msgs" />
         </apex:outputPanel>
 
-        <apex:pageBlock >
+        <apex:pageBlock>
             <h1>Zero-Tax Invoices!</h1>
             <h3>
                 Click the button below to set the {Tax} field on all invoices to 0.00

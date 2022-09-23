@@ -51,4 +51,8 @@ public with sharing class ZeroInvoiceTaxController {
   public PageReference returnToListView(){
     return cancel;
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 3c1cd323e6df89a442a869499b01bee069787a50
